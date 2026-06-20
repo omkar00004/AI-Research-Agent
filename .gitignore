@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+.DS_Store
+*.docx
+.venv/
+generated_reports/
+frontend/node_modules/
+frontend/dist/

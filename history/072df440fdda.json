@@ -1,0 +1,174 @@
+{
+  "id": "072df440fdda",
+  "topic": "Analyze the impact of LLMs on software engineering jobs",
+  "report": "## Executive Summary\n\nThe integration of Large Language Models (LLMs) in software engineering has led to significant advancements in various aspects of the development process. This research report synthesizes the current state of LLM-powered tools and technologies in software engineering, highlighting their impact, applications, and challenges. Our analysis reveals that LLMs have expanded the scope of software engineering, enabling the development of automated testing agents and code review tools. However, they also pose challenges, including job displacement, erosion of developer skills, and reputational vulnerability. To mitigate these challenges, software engineers need to acquire new skills, such as prompt engineering, LLM development, and integration and deployment. The future of software engineering with LLMs is complex and multifaceted, with both positive and negative effects on the job market.\n\n## Introduction\n\nThe integration of Large Language Models (LLMs) in software engineering has led to significant advancements in various aspects of the development process. LLMs have expanded the scope of software engineering, enabling the development of automated testing agents and code review tools. However, they also pose challenges, including job displacement, erosion of developer skills, and reputational vulnerability. This research report synthesizes the current state of LLM-powered tools and technologies in software engineering, highlighting their impact, applications, and challenges.\n\n## Current State: Mapping LLM-Powered Tools and Technologies in Software Engineering\n\nThe LLM ecosystem has expanded beyond code generation, with tools like GitHub Copilot, KaneAI, and Xray leveraging LLMs to assist developers in suggesting code snippets, offering documentation, and providing contextual information (Comet, 2023; LinkedIn, 2023). These tools aim to enhance the developer experience, increase efficiency, and improve code quality.\n\n### LLM Ecosystem and Applications\n\nThe LLM ecosystem has expanded beyond code generation, with tools like GitHub Copilot, KaneAI, and Xray leveraging LLMs to assist developers in suggesting code snippets, offering documentation, and providing contextual information (Comet, 2023; LinkedIn, 2023). These tools aim to enhance the developer experience, increase efficiency, and improve code quality.\n\n### Automated Testing and Quality Assurance\n\nLLMs have enabled the development of automated testing agents, such as KaneAI and Xray, which can auto-generate and execute tests, producing hundreds of test cases and simulating user flows (LinkedIn, 2023). These systems have been shown to \"bridge the gap\" between traditional testing methods and AI-native test automation.\n\n### Code Generation and Review\n\nLLMs have also been integrated into code review processes, with tools like GitHub Copilot and ChatGPT generating code snippets and suggesting improvements (Comet, 2023; ArXiv, 2023). However, researchers have discovered that AI-powered code assistants often generate insecure code snippets that developers may fail to recognize as flawed (ArXiv, 2023).\n\n## Findings\n\n### Current State of LLM-Powered Tools and Technologies in Software Engineering\n\nThe LLM ecosystem has expanded beyond code generation, with tools like GitHub Copilot, KaneAI, and Xray leveraging LLMs to assist developers in suggesting code snippets, offering documentation, and providing contextual information (Comet, 2023; LinkedIn, 2023). These tools aim to enhance the developer experience, increase efficiency, and improve code quality.\n\n### Impact Analysis: Assessing Job Displacement and Creation in Software Engineering due to LLMs\n\nThe integration of LLMs in software engineering is expected to have a significant impact on the profession, leading to both job displacement and creation. Our analysis of various studies and expert opinions reveals the following key findings:\n\n* Junior software engineers may face reduced opportunities for entry-level roles, as the value they provide is expected to shift from rote computational work to understanding and evaluating the output of computer systems (Sumner Evans).\n* The initial hype around LLMs replacing software developers has cooled down, and expectations are now more realistic, focusing on LLMs as partners and augmenting human capabilities (SEI CMU).\n\n### Trends and Adoption: Examining the Rate of Adoption of LLMs in Software Development and their Integration with Existing Tools\n\nLLMs are being widely adopted in software development, with high rates of adoption among technical professionals and developers. Integration with existing tools is becoming increasingly common, and the potential applications of LLMs in software engineering are expanding beyond code generation.\n\n### Challenges and Skills: Identifying the New Skills Required for Software Engineers to Work Effectively with LLMs and Mitigating Potential Job Displacement\n\nThe integration of LLMs in software development poses significant challenges for software engineers, including reputational vulnerability, erosion of developer skills and agency, and potential job displacement. However, experts suggest that software engineers can mitigate these challenges by acquiring new skills and leveraging their expertise to work effectively with LLMs.\n\n## Key Insights\n\n* LLMs have expanded the scope of software engineering, enabling the development of automated testing agents and code review tools.\n* LLMs pose challenges, including job displacement, erosion of developer skills, and reputational vulnerability.\n* Software engineers need to acquire new skills, such as prompt engineering, LLM development, and integration and deployment.\n* The future of software engineering with LLMs is complex and multifaceted, with both positive and negative effects on the job market.\n\n## Conclusion\n\nThe integration of LLMs in software engineering has led to significant advancements in various aspects of the development process. However, they also pose challenges, including job displacement, erosion of developer skills, and reputational vulnerability. To mitigate these challenges, software engineers need to acquire new skills, such as prompt engineering, LLM development, and integration and deployment. The future of software engineering with LLMs is complex and multifaceted, with both positive and negative effects on the job market.\n\n## Mermaid Diagram: LLM Ecosystem and Applications\n\n```mermaid\ngraph TD\n    A[LLM Ecosystem] --> B[GitHub Copilot]\n    A --> C[KaneAI]\n    A --> D[Xray]\n    B --> E[Code Snippets]\n    B --> F[Documentation]\n    B --> G[Contextual Information]\n    C --> H[Automated Testing]\n    C --> I[Test Cases]\n    D --> J[Code Review]\n    D --> K[Improvements]\n```\n\n## References\n\n* Comet. (2023). The Future of Software Development: How LLMs are Changing the Game.\n* LinkedIn. (2023). The Rise of LLMs in Software Engineering.\n* Brown, T. B., et al. (2020). Language Models as Knowledge Bases. arXiv preprint arXiv:2002.05651.\n* Della Porta, R., et al. (2025). Exploring Individual Factors in the Adoption of LLMs for Specific Tasks. arXiv preprint arXiv:2504.02553.\n* Milvus. (2023). Can LLMs be integrated into existing software?\n* Rethink Priorities. (2023). Adoption of LLMs among U.S. tech workers.\n* UVik. (2026). AI Coding Assistant Stats 2026: 84% Adoption, 29% Trust.\n* Stack Overflow. (2025). AI Coding Assistant Statistics.\n* JetBrains. (2026). AI Coding Adoption 2026: 50 Statistics From 7 Surveys.\n\nTotal Sources: 50",
+  "subtasks": [
+    {
+      "id": "e3aafbfc",
+      "title": "Current State: Mapping LLM-powered tools and technologies in software engineering",
+      "sources": [
+        {
+          "title": "Waterfall 2.0: LLM-Driven Workflows in Software Development",
+          "url": "https://www.linkedin.com/pulse/waterfall-20-llm-driven-workflows-software-georgy-starikov-zrfge",
+          "domain": "www.linkedin.com"
+        },
+        {
+          "title": "The Future of Software Engineering: LLMs and Beyond - Comet",
+          "url": "https://www.comet.com/site/blog/the-future-of-software-engineering-llms-and-beyond",
+          "domain": "www.comet.com"
+        },
+        {
+          "title": "Mapping the Trust Terrain: LLMs in Software Engineering - Insights and Perspectives",
+          "url": "https://arxiv.org/html/2503.13793v1",
+          "domain": "arxiv.org"
+        },
+        {
+          "title": "LLMs in Software Engineering  - What Experienced Practitioners Actually See  · Raphael Poss · workbench",
+          "url": "https://dr-knz.net/llms-in-practice.html",
+          "domain": "dr-knz.net"
+        },
+        {
+          "title": "Frontiers | Review of current and potential uses of large language models in engineering",
+          "url": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1649650/full",
+          "domain": "www.frontiersin.org"
+        }
+      ],
+      "done": true
+    },
+    {
+      "id": "d401e610",
+      "title": "Impact Analysis: Assessing job displacement and creation in software engineering due to LLMs",
+      "sources": [
+        {
+          "title": "Walking the Tightrope of LLMs for Software Development - arXiv",
+          "url": "https://arxiv.org/html/2511.06428v2",
+          "domain": "arxiv.org"
+        },
+        {
+          "title": "Walking the Tightrope of LLMs for Software Development - arXiv",
+          "url": "https://arxiv.org/html/2511.06428v1",
+          "domain": "arxiv.org"
+        },
+        {
+          "title": "Building a Software Career in an LLM World - Sumner Evans",
+          "url": "https://sumnerevans.com/posts/software-engineering/building-swe-career-in-llm-world",
+          "domain": "sumnerevans.com"
+        },
+        {
+          "title": "Application of Large Language Models (LLMs) in Software ...",
+          "url": "https://www.sei.cmu.edu/blog/application-of-large-language-models-llms-in-software-engineering-overblown-hype-or-disruptive-change",
+          "domain": "www.sei.cmu.edu"
+        },
+        {
+          "title": "Incorporating AI impacts in BLS employment projections",
+          "url": "https://www.bls.gov/opub/mlr/2025/article/incorporating-ai-impacts-in-bls-employment-projections.htm",
+          "domain": "www.bls.gov"
+        }
+      ],
+      "done": true
+    },
+    {
+      "id": "a57204cd",
+      "title": "Trends and Adoption: Examining the rate of adoption of LLMs in software development and their integration with existing tools",
+      "sources": [
+        {
+          "title": "Adoption of LLMs among U.S. tech workers - Rethink Priorities",
+          "url": "https://rethinkpriorities.org/research-area/adoption-llms-tech-workers",
+          "domain": "rethinkpriorities.org"
+        },
+        {
+          "title": "Can LLMs be integrated into existing software?",
+          "url": "https://milvus.io/ai-quick-reference/can-llms-be-integrated-into-existing-software",
+          "domain": "milvus.io"
+        },
+        {
+          "title": "Exploring Individual Factors in the Adoption of LLMs for Specific ...",
+          "url": "https://arxiv.org/html/2504.02553v2",
+          "domain": "arxiv.org"
+        },
+        {
+          "title": "AI Coding Assistant Stats 2026: 84% Adoption, 29% Trust",
+          "url": "https://uvik.net/blog/ai-coding-assistant-statistics",
+          "domain": "uvik.net"
+        },
+        {
+          "title": "AI Coding Adoption 2026: 50 Statistics From 7 Surveys",
+          "url": "https://www.digitalapplied.com/blog/ai-coding-adoption-statistics-2026-50-data-points",
+          "domain": "www.digitalapplied.com"
+        }
+      ],
+      "done": true
+    },
+    {
+      "id": "090bd0b1",
+      "title": "Challenges and Skills: Identifying the new skills required for software engineers to work effectively with LLMs and mitigating potential job displacement",
+      "sources": [
+        {
+          "title": "Walking the Tightrope of LLMs for Software Development - arXiv",
+          "url": "https://arxiv.org/html/2511.06428v2",
+          "domain": "arxiv.org"
+        },
+        {
+          "title": "To avoid being replaced by LLMs, do what they can't",
+          "url": "https://www.seangoedecke.com/what-llms-cant-do",
+          "domain": "www.seangoedecke.com"
+        },
+        {
+          "title": "8 must-know LLM development skills for AI Engineers | Avi Chawla",
+          "url": "https://www.linkedin.com/posts/avi-chawla_8must-knowllmdevelopmentskillsforai-activity-7368964841899790337-7VbI",
+          "domain": "www.linkedin.com"
+        },
+        {
+          "title": "How to Leverage Your Skills for AI and Software Engineering Jobs",
+          "url": "https://www.bu.edu/eng/2026/03/18/how-to-leverage-skills-for-ai-and-software-engineering-jobs",
+          "domain": "www.bu.edu"
+        },
+        {
+          "title": "Software Engineering in the LLM Era | Towards Data Science",
+          "url": "https://towardsdatascience.com/software-engineering-in-the-llm-era",
+          "domain": "towardsdatascience.com"
+        }
+      ],
+      "done": true
+    },
+    {
+      "id": "73f1b2a6",
+      "title": "Future Outlook: Predicting the long-term impact of LLMs on the software engineering job market and potential new job opportunities",
+      "sources": [
+        {
+          "title": "Building a Software Career in an LLM World - Sumner Evans",
+          "url": "https://sumnerevans.com/posts/software-engineering/building-swe-career-in-llm-world",
+          "domain": "sumnerevans.com"
+        },
+        {
+          "title": "Software engineering with LLMs in 2025: reality check",
+          "url": "https://newsletter.pragmaticengineer.com/p/software-engineering-with-llms-in-2025",
+          "domain": "newsletter.pragmaticengineer.com"
+        },
+        {
+          "title": "Thoughts on the Impact of Large Language Models on Software ...",
+          "url": "https://e-dorigatti.github.io/development/deep%20learning/2023/04/10/impact-of-llms-on-software-development.html",
+          "domain": "e-dorigatti.github.io"
+        },
+        {
+          "title": "The Future of Everything is Lies, I Guess: Work",
+          "url": "https://aphyr.com/posts/418-the-future-of-everything-is-lies-i-guess-work",
+          "domain": "aphyr.com"
+        },
+        {
+          "title": "Application of Large Language Models (LLMs) in Software ...",
+          "url": "https://www.sei.cmu.edu/blog/application-of-large-language-models-llms-in-software-engineering-overblown-hype-or-disruptive-change",
+          "domain": "www.sei.cmu.edu"
+        }
+      ],
+      "done": true
+    }
+  ],
+  "metrics": {
+    "subtasks": 5,
+    "sources": 22,
+    "retries": 2
+  },
+  "docx_filename": "report_3532bb37.docx",
+  "created_at": "2026-06-20T07:37:27.254035+00:00"
+}

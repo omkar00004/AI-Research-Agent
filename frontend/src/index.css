@@ -1,0 +1,612 @@
+@import "tailwindcss";
+
+/* ---- highlight.js theme (GitHub-style) ---- */
+@import "highlight.js/styles/github.min.css";
+
+/* ============================================================
+   Rich Markdown Report Styles (ChatGPT / Claude quality)
+   ============================================================ */
+
+.prose-report {
+  font-family: "Outfit", system-ui, -apple-system, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  color: #1f2937;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ---- Headings ---- */
+.prose-report h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+  color: #111827;
+}
+
+.prose-report h2 {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 1.75rem;
+  margin-bottom: 0.625rem;
+  padding-bottom: 0.375rem;
+  border-bottom: 1px solid #f3f4f6;
+  color: #111827;
+}
+
+.prose-report h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.prose-report h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.375rem;
+  color: #374151;
+}
+
+/* ---- Paragraphs ---- */
+.prose-report p {
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
+}
+
+/* ---- Links ---- */
+.prose-report a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-decoration-color: #93bbfd;
+  text-underline-offset: 2px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+.prose-report a:hover {
+  color: #1d4ed8;
+  text-decoration-color: #2563eb;
+}
+
+/* ---- Bold / Italic ---- */
+.prose-report strong {
+  font-weight: 700;
+  color: #111827;
+}
+.prose-report em {
+  font-style: italic;
+}
+
+/* ---- Lists ---- */
+.prose-report ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-report ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-report li {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding-left: 0.25rem;
+}
+
+.prose-report li::marker {
+  color: #9ca3af;
+}
+
+/* Nested lists */
+.prose-report li > ul,
+.prose-report li > ol {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+/* ---- Inline code ---- */
+.prose-report .inline-code {
+  background: #f3f4f6;
+  color: #dc2626;
+  font-size: 0.8125rem;
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  border: 1px solid #e5e7eb;
+  font-weight: 500;
+}
+
+/* ---- Code blocks ---- */
+.prose-report pre {
+  margin: 1rem 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.prose-report .code-block-wrapper {
+  background: #1e1e2e;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin: 1rem 0;
+  border: 1px solid #313244;
+}
+
+.prose-report .code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: #181825;
+  border-bottom: 1px solid #313244;
+}
+
+.prose-report .code-block-lang {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #a6adc8;
+  font-family: "Outfit", sans-serif;
+}
+
+.prose-report .code-copy-btn {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #a6adc8;
+  background: transparent;
+  border: 1px solid #45475a;
+  border-radius: 0.375rem;
+  padding: 0.2rem 0.625rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: "Outfit", sans-serif;
+}
+.prose-report .code-copy-btn:hover {
+  background: #313244;
+  color: #cdd6f4;
+  border-color: #585b70;
+}
+
+.prose-report .code-block-wrapper code {
+  display: block;
+  padding: 1rem 1.25rem;
+  font-size: 0.8125rem;
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  line-height: 1.7;
+  overflow-x: auto;
+  color: #cdd6f4;
+  background: #1e1e2e;
+}
+
+/* Override highlight.js background inside code blocks */
+.prose-report .code-block-wrapper code.hljs {
+  background: #1e1e2e;
+  padding: 1rem 1.25rem;
+}
+
+/* ---- Blockquotes ---- */
+.prose-report .report-blockquote {
+  border-left: 4px solid #3b82f6;
+  background: #eff6ff;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+  color: #1e3a8a;
+  font-style: italic;
+}
+
+.prose-report .report-blockquote p {
+  margin: 0.25rem 0;
+}
+
+/* ---- Tables ---- */
+.prose-report .table-wrapper {
+  overflow-x: auto;
+  margin: 1rem 0;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.prose-report table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.prose-report thead {
+  background: #f9fafb;
+}
+
+.prose-report th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.prose-report td {
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+  color: #374151;
+}
+
+.prose-report tbody tr:hover {
+  background: #f9fafb;
+}
+
+.prose-report tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---- Horizontal rules ---- */
+.prose-report hr {
+  border: none;
+  height: 1px;
+  background: #e5e7eb;
+  margin: 1.5rem 0;
+}
+
+/* ---- Images ---- */
+.prose-report img {
+  max-width: 100%;
+  border-radius: 0.75rem;
+  margin: 1rem 0;
+}
+
+/* ---- First heading has no top margin ---- */
+.prose-report > h1:first-child,
+.prose-report > h2:first-child,
+.prose-report > h3:first-child {
+  margin-top: 0;
+}
+
+/* ============================================================
+   History Sidebar Styles
+   ============================================================ */
+
+/* ---- Backdrop ---- */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
+  pointer-events: none;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+.sidebar-backdrop-visible {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  pointer-events: auto;
+}
+
+/* ---- Panel ---- */
+.sidebar-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 50;
+  width: 340px;
+  max-width: 85vw;
+  background: #0f172a;
+  color: #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+}
+.sidebar-panel-open {
+  transform: translateX(0);
+}
+
+/* ---- Header ---- */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.125rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.sidebar-header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+}
+.sidebar-close-btn {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sidebar-close-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f1f5f9;
+}
+
+/* ---- New Chat button ---- */
+.sidebar-new-chat {
+  padding: 0.75rem 1rem;
+}
+.sidebar-new-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  height: 2.75rem;
+  border-radius: 0.625rem;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  background: rgba(59, 130, 246, 0.1);
+  color: #93bbfd;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: "Outfit", sans-serif;
+  letter-spacing: 0.01em;
+}
+.sidebar-new-btn:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #bdd4fe;
+  transform: scale(1.01);
+}
+
+/* ---- Search ---- */
+.sidebar-search {
+  position: relative;
+  padding: 0 1rem 0.75rem;
+}
+.sidebar-search-icon {
+  position: absolute;
+  left: 1.75rem;
+  top: 50%;
+  transform: translateY(calc(-50% - 0.375rem));
+  width: 0.875rem;
+  height: 0.875rem;
+  color: #64748b;
+  pointer-events: none;
+}
+.sidebar-search-input {
+  width: 100%;
+  height: 2.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.5rem;
+  padding: 0 0.75rem 0 2.25rem;
+  color: #e2e8f0;
+  font-size: 0.8125rem;
+  font-family: "Outfit", sans-serif;
+  outline: none;
+  transition: all 0.15s;
+}
+.sidebar-search-input::placeholder {
+  color: #475569;
+}
+.sidebar-search-input:focus {
+  border-color: rgba(59, 130, 246, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ---- List ---- */
+.sidebar-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.25rem 0.75rem;
+}
+.sidebar-list::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+/* ---- Group label ---- */
+.sidebar-group {
+  margin-bottom: 0.5rem;
+}
+.sidebar-group-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #475569;
+  padding: 0.75rem 0.5rem 0.375rem;
+}
+
+/* ---- Item ---- */
+.sidebar-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.625rem 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: transparent;
+  color: #cbd5e1;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: "Outfit", sans-serif;
+  position: relative;
+}
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.sidebar-item-active {
+  background: rgba(59, 130, 246, 0.12) !important;
+  color: #bdd4fe;
+}
+.sidebar-item-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.375rem;
+  bottom: 0.375rem;
+  width: 3px;
+  border-radius: 2px;
+  background: #3b82f6;
+}
+
+/* ---- Item internals ---- */
+.sidebar-item-icon {
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.375rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #64748b;
+  margin-top: 1px;
+}
+.sidebar-item-active .sidebar-item-icon {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93bbfd;
+}
+.sidebar-item-content {
+  flex: 1;
+  min-width: 0;
+}
+.sidebar-item-topic {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.sidebar-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.6875rem;
+  color: #475569;
+  margin-top: 0.25rem;
+}
+.sidebar-item-dot {
+  color: #334155;
+}
+
+/* ---- Item actions ---- */
+.sidebar-item-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 2px;
+}
+.sidebar-item-chevron {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: #334155;
+  transition: color 0.15s;
+}
+.sidebar-item:hover .sidebar-item-chevron {
+  color: #64748b;
+}
+.sidebar-delete-btn {
+  display: none;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.375rem;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sidebar-item:hover .sidebar-delete-btn {
+  display: grid;
+}
+.sidebar-item:hover .sidebar-item-chevron {
+  display: none;
+}
+.sidebar-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+/* ---- Empty state ---- */
+.sidebar-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  gap: 0.5rem;
+}
+.sidebar-empty-icon {
+  color: #334155;
+  margin-bottom: 0.25rem;
+}
+.sidebar-empty-title {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+.sidebar-empty-sub {
+  font-size: 0.75rem;
+  color: #475569;
+}
+
+/* ---- Spinner ---- */
+.sidebar-spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: sidebar-spin 0.7s linear infinite;
+}
+@keyframes sidebar-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Footer ---- */
+.sidebar-footer {
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.6875rem;
+  color: #475569;
+  text-align: center;
+  font-weight: 500;
+}

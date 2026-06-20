@@ -1,0 +1,10 @@
+langchain==0.3.25
+langchain-groq==0.3.2
+langchain-community==0.3.24
+langgraph==0.4.8
+tavily-python==0.5.1
+python-docx==1.1.2
+python-dotenv==1.1.0
+langfuse==2.51.3
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
