@@ -52,7 +52,7 @@ Guidelines:
 - Use rich markdown formatting: headings (##, ###), **bold**, *italic*, bullet lists, numbered lists
 - Use markdown tables when comparing data, metrics, or features side-by-side
 - Use blockquotes (>) for notable expert quotes or key statistics
-- When the topic involves processes, workflows, architectures, relationships, comparisons, or systems, include a Mermaid diagram using a ```mermaid code block to visually illustrate the concept. Use graph TD, flowchart, pie, or other appropriate Mermaid diagram types. Keep diagrams simple and readable.
+- When the topic involves processes, workflows, architectures, relationships, comparisons, or systems, include a Mermaid diagram using a ```mermaid code block to visually illustrate the concept. Use graph TD, flowchart, pie, or other appropriate Mermaid diagram types. Keep diagrams simple and readable. IMPORTANT: Use correct Mermaid syntax for labels on arrows, e.g., `A -->|label| B`. NEVER use invalid syntax like `A -->|label|> B`.
 - Reference specific findings from the research
 - Be thorough but concise — aim for 800-1200 words
 - Do NOT fabricate any information not present in the research
