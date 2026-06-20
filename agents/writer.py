@@ -3,6 +3,7 @@ from langchain_core.messages import SystemMessage, HumanMessage
 from agents.state import ResearchState
 import re
 import os
+from utils.llm import get_llm
 
 
 def fix_mermaid_syntax(text: str) -> str:
