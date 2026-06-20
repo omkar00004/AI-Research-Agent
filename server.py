@@ -34,12 +34,18 @@ if os.getenv("LANGFUSE_PUBLIC_KEY") and os.getenv("LANGFUSE_SECRET_KEY"):
         pass
 
 # ---- Storage for generated reports ----
-REPORTS_DIR = Path("generated_reports")
-REPORTS_DIR.mkdir(exist_ok=True)
+if os.environ.get("VERCEL"):
+    REPORTS_DIR = Path("/tmp/generated_reports")
+else:
+    REPORTS_DIR = Path("generated_reports")
+REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # ---- Storage for conversation history ----
-HISTORY_DIR = Path("history")
-HISTORY_DIR.mkdir(exist_ok=True)
+if os.environ.get("VERCEL"):
+    HISTORY_DIR = Path("/tmp/history")
+else:
+    HISTORY_DIR = Path("history")
+HISTORY_DIR.mkdir(parents=True, exist_ok=True)
 
 
 @asynccontextmanager
