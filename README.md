@@ -1,3 +1,13 @@
+---
+title: AI Research Agent
+emoji: 🔬
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Atlas: Multi-Agent AI Research Report Generator
 
 Atlas is an AI-powered research assistant structured as a multi-agent team using **LangGraph**, **FastAPI**, and **React** (Vite + TypeScript + Tailwind CSS).
