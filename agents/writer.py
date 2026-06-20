@@ -28,11 +28,7 @@ def fix_mermaid_syntax(text: str) -> str:
 
 
 def writer_agent(state: ResearchState) -> dict:
-    llm = ChatGroq(
-        model="llama-3.3-70b-versatile",
-        api_key=os.getenv("GROQ_API_KEY"),
-        temperature=0.4,
-    )
+    llm = get_llm(temperature=0.4)
 
     research_content = "\n\n".join([
         f"## {r['subtask']}\n{r['synthesis']}"
