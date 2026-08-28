@@ -2,9 +2,11 @@
 
 import os
 import json
+import time
 from utils.llm import get_llm
 from langchain_core.messages import SystemMessage, HumanMessage
 from agents.state import ResearchState
+from utils.tracing import get_tracing_context
 
 
 def planner_agent(state: ResearchState) -> dict:
@@ -14,7 +16,20 @@ def planner_agent(state: ResearchState) -> dict:
     4-5 subtasks that cover different angles of the research topic.
     """
 
-    llm = get_llm(temperature=0.4)
+    llm = get_llm(role="planner", temperature=0.4)
+
+    # Resolve model name for metrics
+    try:
+        from config import MODEL_CONFIG
+        model_name = MODEL_CONFIG.get("planner", "llama-3.3-70b-versatile")
+    except ImportError:
+        model_name = "llama-3.3-70b-versatile"
+
+    # Start tracing span
+    ctx = get_tracing_context(state.get("report_id", ""))
+    start = time.time()
+    if ctx:
+        ctx.start_span("planner", retry_count=state.get("retry_count", 0))
 
     system = SystemMessage(content="""You are a senior research strategist at a top consulting firm.
 Given a broad research topic, decompose it into exactly 4-5 focused, non-overlapping subtasks
@@ -31,6 +46,12 @@ Example: ["subtask 1", "subtask 2", "subtask 3", "subtask 4"]""")
     human = HumanMessage(content=f"Research topic: {state['topic']}")
 
     response = llm.invoke([system, human])
+
+    # Record LLM call metrics
+    metric = None
+    if ctx:
+        metric = ctx.record_llm_call("planner", response, model_name, start)
+        ctx.end_span("planner", output={"subtasks_count": 0})
 
     try:
         content = response.content.strip()
@@ -49,7 +70,12 @@ Example: ["subtask 1", "subtask 2", "subtask 3", "subtask 4"]""")
             f"Future outlook and predictions for {state['topic']}",
         ]
 
-    return {
+    # Update span output with actual subtask count
+    if ctx and ctx._active_spans.get("planner"):
+        ctx.end_span("planner", output={"subtasks_count": len(subtasks)})
+
+    # Build metrics update
+    result = {
         "subtasks": subtasks,
         "current_agent": "planner",
         "log": [
@@ -58,3 +84,12 @@ Example: ["subtask 1", "subtask 2", "subtask 3", "subtask 4"]""")
             *[f"→ {st}" for st in subtasks],
         ],
     }
+
+    # Propagate accumulated metrics
+    if ctx:
+        result["total_input_tokens"] = ctx.total_input_tokens
+        result["total_output_tokens"] = ctx.total_output_tokens
+        result["total_estimated_cost"] = ctx.total_estimated_cost
+        result["agent_metrics"] = ctx.metrics_as_dicts()
+
+    return result

@@ -7,3 +7,5 @@ __pycache__/
 generated_reports/
 frontend/node_modules/
 frontend/dist/
+tests/results/
+report_eval*.json

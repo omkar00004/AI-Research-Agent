@@ -3,14 +3,16 @@ from langchain_core.messages import SystemMessage, HumanMessage
 from agents.state import ResearchState
 import re
 import os
+import time
 from utils.llm import get_llm
+from utils.tracing import get_tracing_context
 
 
 def fix_mermaid_syntax(text: str) -> str:
     """
     Post-process LLM output to fix common Mermaid syntax errors.
     Handles the most frequent hallucination: -->|label|> instead of -->|label|
-    Also fixes: ---->|label|>, -.->|label|>, ===>|label|>
+    Also fixes: ---->|label|>, -..->|label|>, ===>|label|>
     """
     # Fix -->|label|> B  =>  -->|label| B
     text = re.sub(r'(\-+>)\|([^|]+)\|>', r'\1|\2|', text)
@@ -29,7 +31,19 @@ def fix_mermaid_syntax(text: str) -> str:
 
 
 def writer_agent(state: ResearchState) -> dict:
-    llm = get_llm(temperature=0.4)
+    llm = get_llm(role="writer", temperature=0.4)
+
+    # Resolve model name for metrics
+    try:
+        from config import MODEL_CONFIG
+        model_name = MODEL_CONFIG.get("writer", "llama-3.3-70b-versatile")
+    except ImportError:
+        model_name = "llama-3.3-70b-versatile"
+
+    # Get tracing context
+    ctx = get_tracing_context(state.get("report_id", ""))
+    if ctx:
+        ctx.start_span("writer", retry_count=state.get("retry_count", 0))
 
     research_content = "\n\n".join([
         f"## {r['subtask']}\n{r['synthesis']}"
@@ -39,6 +53,13 @@ def writer_agent(state: ResearchState) -> dict:
     critic_note = ""
     if state.get("critique"):
         critic_note = f"\n\nCritic feedback to incorporate: {state['critique']}"
+
+    # If guardrails were hit, note it for the writer
+    guardrail_note = ""
+    if state.get("budget_exceeded"):
+        guardrail_note += "\n\nNote: The research budget was exceeded, so work with the available research."
+    if state.get("max_retries_reached"):
+        guardrail_note += "\n\nNote: Maximum research retries were reached. Synthesize the best available findings."
 
     system = SystemMessage(content="""You are a senior analyst at a top-tier consulting firm.
 Write a comprehensive, professional research report based on the research provided.
@@ -74,15 +95,22 @@ Mermaid diagram rules (CRITICAL - follow exactly):
 Research findings:
 {research_content}
 {critic_note}
+{guardrail_note}
 
 Write the full professional report:""")
 
+    llm_start = time.time()
     response = llm.invoke([system, human])
+
+    # Record LLM metrics
+    if ctx:
+        ctx.record_llm_call("writer", response, model_name, llm_start)
+        ctx.end_span("writer", output={"report_length": len(response.content)})
 
     # Post-process to fix any Mermaid syntax errors the LLM still generates
     cleaned_report = fix_mermaid_syntax(response.content)
 
-    return {
+    result = {
         "final_report": cleaned_report,
         "current_agent": "writer",
         "log": [
@@ -92,3 +120,12 @@ Write the full professional report:""")
             "Report complete",
         ],
     }
+
+    # Propagate final accumulated metrics
+    if ctx:
+        result["total_input_tokens"] = ctx.total_input_tokens
+        result["total_output_tokens"] = ctx.total_output_tokens
+        result["total_estimated_cost"] = ctx.total_estimated_cost
+        result["agent_metrics"] = ctx.metrics_as_dicts()
+
+    return result

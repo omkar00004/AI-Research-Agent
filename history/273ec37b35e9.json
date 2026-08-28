@@ -1,0 +1,246 @@
+{
+  "id": "273ec37b35e9",
+  "topic": "Analyze the impact of LLMs on software engineering jobs",
+  "report": "## EXECUTIVE SUMMARY\nThe integration of Large Language Models (LLMs) in software development is transforming the nature of job roles and responsibilities, with significant implications for productivity and workflow efficiency. Our research findings indicate that LLMs are increasingly being adopted in software development workflows, with approximately 85% of developers using AI tools, including LLMs, in their daily workflow. However, the impact of LLMs on software engineering employment and career paths is complex and multifaceted, requiring careful evaluation and adaptation of existing processes. As LLMs continue to evolve, it is essential to consider their potential to augment human capabilities and create new opportunities for software engineers.\n\n## INTRODUCTION\nThe rapid advancement of Large Language Models (LLMs) has significant implications for the software engineering industry. LLMs have the potential to automate many tasks, enhance productivity, and improve efficiency. However, their adoption also raises concerns about job displacement, changes in job roles and responsibilities, and the need for new skills and training. This report provides an in-depth analysis of the impact of LLMs on software engineering jobs, including current adoption and integration, job role impact, task automation, required skills, and long-term implications.\n\n### Current Adoption and Integration of LLMs in Software Development Workflows\nOur research findings indicate that LLMs are increasingly being integrated into software development workflows, with significant implications for productivity and workflow efficiency. Approximately 85% of developers now use AI tools, including LLMs, in their daily workflow. However, integrating LLMs into existing workflows can be complex, requiring significant restructuring or redesign of processes to accommodate LLM capabilities.\n\n### Job Role Impact and Task Automation\nThe integration of LLMs in software engineering is transforming the nature of job roles and responsibilities. LLMs are expected to cause a step-change in performance expectations for software engineers, shifting the focus from rote computational work to understanding and evaluating the output of computer systems. While LLMs have shown surprising capabilities in automatic programming, code generation, and remediation, their impact on software engineering jobs is multifaceted. LLMs can be used to augment human capabilities, such as generating code, interpreting prompts, and providing insights.\n\n### Required Skills and Training\nTo work effectively with LLMs, software engineers require a combination of skills and training in AI strategy, full-stack engineering, LLM calling, prompt engineering, orchestration, fine-tuning, and the use of cloud services. While LLMs can amplify productivity, they do not replace the need for solid software engineering fundamentals. Our research findings emphasize the importance of developing skills that are complementary to LLMs, such as critical thinking and evaluation.\n\n### Long-term Implications\nThe long-term implications of LLMs on software engineering employment and career paths are complex and multifaceted. Experts predict that LLMs will cause a step-change in performance expectations, making it essential for junior software engineers to focus on understanding and evaluating the output of computer systems. The use of LLMs is likely to change the software engineering landscape, with potential consequences for the market for developers. However, LLMs can also augment the work of senior software engineers, making them more productive by abstracting away mundane tasks.\n\n## FINDINGS\n### Assessing Current Adoption and Integration of LLMs\nOur research findings indicate that LLMs are increasingly being adopted in software development workflows, with significant implications for productivity and workflow efficiency. The assessment of current adoption and integration of LLMs in software development workflows reveals that:\n* Approximately 85% of developers now use AI tools, including LLMs, in their daily workflow.\n* LLMs have been found to increase productivity among software developers, with many using them to generate code, understand unfamiliar systems, and review complex changes.\n* Integrating LLMs into existing workflows can be complex, requiring significant restructuring or redesign of processes to accommodate LLM capabilities.\n\n### Evaluating the Effect of LLMs on Software Engineering Job Roles and Responsibilities\nThe integration of LLMs in software engineering is transforming the nature of job roles and responsibilities. Our research findings indicate that:\n* LLMs are expected to cause a step-change in performance expectations for software engineers, shifting the focus from rote computational work to understanding and evaluating the output of computer systems.\n* Junior software engineers will need to differentiate themselves by providing value beyond coding tasks, such as understanding and interpreting LLM outputs.\n* LLMs can be used to augment human capabilities, such as generating code, interpreting prompts, and providing insights.\n\n### Investigating the Potential for LLMs to Automate or Augment Specific Software Engineering Tasks\nOur research findings indicate that LLMs have shown promise in specific software engineering tasks, such as:\n* Code generation: LLMs have been found to be effective in generating code snippets based on high-level descriptions or partial code inputs.\n* Code summarization: LLMs can generate concise and accurate descriptions of code, aiding in documentation and code understanding.\n* Bug reproduction tests: LLMs have demonstrated effectiveness in generating bug reproduction tests, with applications in security testing and bug fixing.\n\n```mermaid\ngraph TD\n    A[Software Development] -->|LLM Integration| B[Code Generation]\n    B -->|Code Summarization| C[Documentation]\n    C -->|Bug Reproduction Tests| D[Security Testing]\n    D -->|Bug Fixing| E[Code Review]\n    E -->|Code Refactoring| F[Code Optimization]\n```\n\n### Examining the Skills and Training Required for Software Engineers to Work Effectively with LLMs\nTo work effectively with LLMs, software engineers require a combination of skills and training in AI strategy, full-stack engineering, LLM calling, prompt engineering, orchestration, fine-tuning, and the use of cloud services. Our research findings emphasize the importance of developing skills that are complementary to LLMs, such as critical thinking and evaluation.\n\n### Forecasting the Long-term Implications of LLMs on Software Engineering Employment and Career Paths\nThe long-term implications of LLMs on software engineering employment and career paths are complex and multifaceted. Our research findings indicate that:\n* LLMs will cause a step-change in performance expectations, making it essential for junior software engineers to focus on understanding and evaluating the output of computer systems.\n* The use of LLMs is likely to change the software engineering landscape, with potential consequences for the market for developers.\n* LLMs can also augment the work of senior software engineers, making them more productive by abstracting away mundane tasks.\n\n## KEY INSIGHTS\n* LLMs are increasingly being adopted in software development workflows, with significant implications for productivity and workflow efficiency.\n* The integration of LLMs in software engineering is transforming the nature of job roles and responsibilities, with a focus on understanding and evaluating the output of computer systems.\n* LLMs can be used to augment human capabilities, such as generating code, interpreting prompts, and providing insights.\n* To work effectively with LLMs, software engineers require a combination of skills and training in AI strategy, full-stack engineering, LLM calling, prompt engineering, orchestration, fine-tuning, and the use of cloud services.\n* The long-term implications of LLMs on software engineering employment and career paths are complex and multifaceted, requiring careful evaluation and adaptation of existing processes.\n\n## CONCLUSION\nThe integration of Large Language Models (LLMs) in software development is transforming the nature of job roles and responsibilities, with significant implications for productivity and workflow efficiency. Our research findings indicate that LLMs are increasingly being adopted in software development workflows, with approximately 85% of developers using AI tools, including LLMs, in their daily workflow. However, the impact of LLMs on software engineering employment and career paths is complex and multifaceted, requiring careful evaluation and adaptation of existing processes. As LLMs continue to evolve, it is essential to consider their potential to augment human capabilities and create new opportunities for software engineers. By developing skills that are complementary to LLMs, such as critical thinking and evaluation, software engineers can harness the power of LLMs to improve productivity and solve complex problems.",
+  "subtasks": [
+    {
+      "id": "27686569",
+      "title": "Assess current adoption and integration of LLMs in software development workflows",
+      "sources": [
+        {
+          "title": "Adoption and uses of LLMs among U.S. tech workers",
+          "url": "https://rethinkpriorities.org/research-area/adoption-llms-tech-workers",
+          "domain": "rethinkpriorities.org"
+        },
+        {
+          "title": "[PDF] Leveraging Large Language Models in the Software Development ...",
+          "url": "https://thesai.org/Downloads/Volume16No11/Paper_5-Leveraging_Large_Language_Models_in_the_Software_Development_Lifecycle.pdf",
+          "domain": "thesai.org"
+        },
+        {
+          "title": "Integrating LLMs into Real Development Workflows: Lessons from Falcon's .NET team",
+          "url": "https://ft.ro/blog/integrating-llms-into-real-development-workflows-lessons-from-falcons-net-team",
+          "domain": "ft.ro"
+        },
+        {
+          "title": "Integrating LLMs into Software Development Workflows",
+          "url": "https://hyqoo.com/developer-journey/integrating-llms-into-software-development-workflows",
+          "domain": "hyqoo.com"
+        },
+        {
+          "title": "Recommendations for Efficient and Responsible LLM Adoption within Industrial Software Development",
+          "url": "https://arxiv.org/html/2604.26590v1",
+          "domain": "arxiv.org"
+        }
+      ],
+      "done": true
+    },
+    {
+      "id": "ee1da590",
+      "title": "Evaluate the effect of LLMs on software engineering job roles and responsibilities",
+      "sources": [
+        {
+          "title": "Building a Software Career in an LLM World - Sumner Evans",
+          "url": "https://sumnerevans.com/posts/software-engineering/building-swe-career-in-llm-world",
+          "domain": "sumnerevans.com"
+        },
+        {
+          "title": "Impact of AI on Software Engineering Jobs",
+          "url": "https://arxiv.org/html/2502.20429v2",
+          "domain": "arxiv.org"
+        },
+        {
+          "title": "Medium",
+          "url": "https://medium.com/@naseefcse/the-negative-impact-of-large-language-models-on-software-developers-8b3f8f0a5751",
+          "domain": "medium.com"
+        },
+        {
+          "title": "LLMs: A game-changer for software engineers?",
+          "url": "https://www.sciencedirect.com/science/article/pii/S2772485925000171",
+          "domain": "www.sciencedirect.com"
+        },
+        {
+          "title": "Application of Large Language Models (LLMs) in Software ...",
+          "url": "https://www.sei.cmu.edu/blog/application-of-large-language-models-llms-in-software-engineering-overblown-hype-or-disruptive-change",
+          "domain": "www.sei.cmu.edu"
+        }
+      ],
+      "done": true
+    },
+    {
+      "id": "71eb3a6d",
+      "title": "Investigate the potential for LLMs to automate or augment specific software engineering tasks",
+      "sources": [
+        {
+          "title": "Usability of LLMs for Assisting Software Engineering",
+          "url": "https://elib.dlr.de/210605/1/Bachelorarbeit_Dania_Hussein___Systematisches_Literatur_Review__Eignung_von_ChatGPT_und_Co_als_Unterst%C3%BCtzung_beim_Software_Engineering.pdf",
+          "domain": "elib.dlr.de"
+        },
+        {
+          "title": "Augmenting software engineering with AI and developing it further towards AI-assisted model-driven software engineering",
+          "url": "https://arxiv.org/html/2409.18048v3",
+          "domain": "arxiv.org"
+        },
+        {
+          "title": "Toward Explaining Large Language Models in Software Engineering Tasks",
+          "url": "https://arxiv.org/html/2512.20328v1",
+          "domain": "arxiv.org"
+        },
+        {
+          "title": "From LLMs to LLM-based Agents for Software Engineering: A Survey of Current, Challenges and Future",
+          "url": "https://arxiv.org/html/2408.02479v1",
+          "domain": "arxiv.org"
+        },
+        {
+          "title": "Application of Large Language Models (LLMs) in Software ...",
+          "url": "https://www.sei.cmu.edu/blog/application-of-large-language-models-llms-in-software-engineering-overblown-hype-or-disruptive-change",
+          "domain": "www.sei.cmu.edu"
+        }
+      ],
+      "done": true
+    },
+    {
+      "id": "4bc4884d",
+      "title": "Examine the skills and training required for software engineers to work effectively with LLMs",
+      "sources": [
+        {
+          "title": "10 Software Engineering Skills Needed to Lead in the AI Economy - The Quantic Blog",
+          "url": "https://quantic.edu/blog/2025/01/28/10-software-engineering-skills-needed-to-lead-in-the-ai-economy",
+          "domain": "quantic.edu"
+        },
+        {
+          "title": "Coding skills still essential for LLMs and AI development | Sue Smith posted on the topic | LinkedIn",
+          "url": "https://www.linkedin.com/posts/sue-smith-benormal_your-regular-reminder-that-those-skills-software-activity-7486316239292866561-Jhv-",
+          "domain": "www.linkedin.com"
+        },
+        {
+          "title": "From LLMs to LLM-based Agents for Software Engineering: A Survey of Current, Challenges and Future",
+          "url": "https://arxiv.org/html/2408.02479v2",
+          "domain": "arxiv.org"
+        },
+        {
+          "title": "10x Development: LLMs For the working Programmer - Manuel Odendahl",
+          "url": "https://www.youtube.com/watch?v=zwItokY087U",
+          "domain": "www.youtube.com"
+        },
+        {
+          "title": "My LLM coding workflow going into 2026",
+          "url": "https://addyosmani.com/blog/ai-coding-workflow",
+          "domain": "addyosmani.com"
+        }
+      ],
+      "done": true
+    },
+    {
+      "id": "bb8e0871",
+      "title": "Forecast the long-term implications of LLMs on software engineering employment and career paths",
+      "sources": [
+        {
+          "title": "Building a Software Career in an LLM World",
+          "url": "https://sumnerevans.com/posts/software-engineering/building-swe-career-in-llm-world",
+          "domain": "sumnerevans.com"
+        },
+        {
+          "title": "Software Engineering's Future with LLMs: Challenges and Opportunities | Hillel Wayne posted on the topic | LinkedIn",
+          "url": "https://www.linkedin.com/posts/hillel-wayne_i-think-its-pretty-clear-by-now-that-llms-activity-7429952190791979009-Jg8Y",
+          "domain": "www.linkedin.com"
+        },
+        {
+          "title": "Thoughts on the Impact of Large Language Models ...",
+          "url": "https://e-dorigatti.github.io/development/deep%20learning/2023/04/10/impact-of-llms-on-software-development.html",
+          "domain": "e-dorigatti.github.io"
+        },
+        {
+          "title": "Application of Large Language Models (LLMs) in Software ...",
+          "url": "https://www.sei.cmu.edu/blog/application-of-large-language-models-llms-in-software-engineering-overblown-hype-or-disruptive-change",
+          "domain": "www.sei.cmu.edu"
+        },
+        {
+          "title": "Software Engineering in the LLM Era | by Stephanie Kirmer",
+          "url": "https://medium.com/@s.kirmer/software-engineering-in-the-llm-era-ca8fa736ab7f",
+          "domain": "medium.com"
+        }
+      ],
+      "done": true
+    }
+  ],
+  "metrics": {
+    "subtasks": 5,
+    "sources": 22,
+    "retries": 0,
+    "budget_exceeded": false,
+    "max_retries_reached": false,
+    "total_input_tokens": 8124,
+    "total_output_tokens": 4274,
+    "total_estimated_cost": 0.00411,
+    "agent_metrics": [
+      {
+        "agent": "planner",
+        "model": "llama-3.3-70b-versatile",
+        "input_tokens": 179,
+        "output_tokens": 88,
+        "estimated_cost": 0.000175,
+        "latency_ms": 924.1
+      },
+      {
+        "agent": "researcher",
+        "model": "llama-3.1-8b-instant",
+        "input_tokens": 840,
+        "output_tokens": 379,
+        "estimated_cost": 7.2e-05,
+        "latency_ms": 873.9
+      },
+      {
+        "agent": "researcher",
+        "model": "llama-3.1-8b-instant",
+        "input_tokens": 843,
+        "output_tokens": 524,
+        "estimated_cost": 8.4e-05,
+        "latency_ms": 1054.8
+      },
+      {
+        "agent": "researcher",
+        "model": "llama-3.1-8b-instant",
+        "input_tokens": 864,
+        "output_tokens": 582,
+        "estimated_cost": 9e-05,
+        "latency_ms": 1074.8
+      },
+      {
+        "agent": "researcher",
+        "model": "llama-3.1-8b-instant",
+        "input_tokens": 876,
+        "output_tokens": 392,
+        "estimated_cost": 7.5e-05,
+        "latency_ms": 934.6
+      },
+      {
+        "agent": "researcher",
+        "model": "llama-3.1-8b-instant",
+        "input_tokens": 903,
+        "output_tokens": 551,
+        "estimated_cost": 8.9e-05,
+        "latency_ms": 961.9
+      },
+      {
+        "agent": "critic",
+        "model": "llama-3.3-70b-versatile",
+        "input_tokens": 657,
+        "output_tokens": 89,
+        "estimated_cost": 0.000458,
+        "latency_ms": 746.1
+      },
+      {
+        "agent": "writer",
+        "model": "llama-3.3-70b-versatile",
+        "input_tokens": 2962,
+        "output_tokens": 1669,
+        "estimated_cost": 0.003066,
+        "latency_ms": 3871.5
+      }
+    ]
+  },
+  "report_id": "3c21d2ec7978",
+  "docx_filename": "report_a5198038.docx",
+  "created_at": "2026-08-04T06:48:37.637108+00:00"
+}

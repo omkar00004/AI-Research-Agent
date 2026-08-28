@@ -9,21 +9,9 @@ from dotenv import load_dotenv
 from agents.graph import build_graph
 from agents.state import ResearchState
 from utils.doc_generator import generate_docx
+from utils.tracing import generate_report_id, create_tracing_context, remove_tracing_context
 
 load_dotenv()
-
-# ---- LANGFUSE SETUP ----
-langfuse_handler = None
-if os.getenv("LANGFUSE_PUBLIC_KEY") and os.getenv("LANGFUSE_SECRET_KEY"):
-    try:
-        from langfuse.callback import CallbackHandler
-        langfuse_handler = CallbackHandler(
-            public_key=os.getenv("LANGFUSE_PUBLIC_KEY"),
-            secret_key=os.getenv("LANGFUSE_SECRET_KEY"),
-            host=os.getenv("LANGFUSE_HOST", "https://cloud.langfuse.com"),
-        )
-    except ImportError:
-        pass
 
 # ---- PAGE CONFIG ----
 st.set_page_config(
@@ -254,6 +242,10 @@ if run_btn and topic:
     completed_agents = []
     final_state = None
 
+    # Generate unique report_id and create tracing context
+    report_id = generate_report_id()
+    ctx = create_tracing_context(report_id, topic)
+
     initial_state: ResearchState = {
         "topic": topic,
         "subtasks": [],
@@ -265,14 +257,18 @@ if run_btn and topic:
         "sources": [],
         "current_agent": "",
         "log": [],
+        # Observability fields
+        "report_id": report_id,
+        "total_input_tokens": 0,
+        "total_output_tokens": 0,
+        "total_estimated_cost": 0.0,
+        "agent_metrics": [],
+        "budget_exceeded": False,
+        "max_retries_reached": False,
     }
 
-    # Stream config with optional Langfuse callback
-    stream_config = {}
-    if langfuse_handler:
-        stream_config["callbacks"] = [langfuse_handler]
-
-    for event in graph.stream(initial_state, config=stream_config, stream_mode="values"):
+    # No callbacks needed — tracing is handled inside each agent node
+    for event in graph.stream(initial_state, stream_mode="values"):
         current = event.get("current_agent", "")
         logs = event.get("log", [])
         final_state = event
@@ -316,6 +312,14 @@ if run_btn and topic:
         if current not in completed_agents:
             completed_agents.append(current)
 
+    # Finalize Langfuse trace
+    if ctx:
+        ctx.finalize(output={
+            "report_length": len(final_state.get("final_report", "")) if final_state else 0,
+            "retries": final_state.get("retry_count", 0) if final_state else 0,
+        })
+    remove_tracing_context(report_id)
+
     # ---- FINAL STATE ----
     if final_state and final_state.get("final_report"):
 
@@ -347,6 +351,19 @@ if run_btn and topic:
                 st.markdown(f"""<div class="metric-card">
                     <div class="metric-value">{final_state.get('retry_count', 0)}</div>
                     <div class="metric-label">Retries</div></div>""", unsafe_allow_html=True)
+
+            # Cost metrics row
+            m4, m5 = st.columns(2)
+            with m4:
+                total_tokens = final_state.get('total_input_tokens', 0) + final_state.get('total_output_tokens', 0)
+                st.markdown(f"""<div class="metric-card">
+                    <div class="metric-value">{total_tokens:,}</div>
+                    <div class="metric-label">Total Tokens</div></div>""", unsafe_allow_html=True)
+            with m5:
+                cost = final_state.get('total_estimated_cost', 0.0)
+                st.markdown(f"""<div class="metric-card">
+                    <div class="metric-value">${cost:.4f}</div>
+                    <div class="metric-label">Est. Cost</div></div>""", unsafe_allow_html=True)
 
         # Full report display
         with right_col:
@@ -401,7 +418,10 @@ with st.sidebar:
     st.markdown("### 🔑 API Keys Required")
     st.code("GROQ_API_KEY=...\nTAVILY_API_KEY=...", language="bash")
 
-    if langfuse_handler:
+    langfuse_active = bool(
+        os.getenv("LANGFUSE_PUBLIC_KEY") and os.getenv("LANGFUSE_SECRET_KEY")
+    )
+    if langfuse_active:
         st.success("✅ Langfuse tracing active")
     else:
         st.info("ℹ️ Langfuse tracing disabled (set keys to enable)")

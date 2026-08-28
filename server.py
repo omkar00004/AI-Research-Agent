@@ -20,19 +20,6 @@ from fastapi.staticfiles import StaticFiles
 
 load_dotenv()
 
-# ---- Langfuse setup ----
-langfuse_handler = None
-if os.getenv("LANGFUSE_PUBLIC_KEY") and os.getenv("LANGFUSE_SECRET_KEY"):
-    try:
-        from langfuse.callback import CallbackHandler
-        langfuse_handler = CallbackHandler(
-            public_key=os.getenv("LANGFUSE_PUBLIC_KEY"),
-            secret_key=os.getenv("LANGFUSE_SECRET_KEY"),
-            host=os.getenv("LANGFUSE_HOST", "https://cloud.langfuse.com"),
-        )
-    except ImportError:
-        pass
-
 # ---- Storage for generated reports ----
 if os.environ.get("VERCEL"):
     REPORTS_DIR = Path("/tmp/generated_reports")
@@ -73,8 +60,15 @@ def run_graph_sync(topic: str, event_queue: asyncio.Queue):
     """
     from agents.graph import build_graph
     from agents.state import ResearchState
+    from utils.tracing import (
+        generate_report_id, create_tracing_context, remove_tracing_context,
+    )
 
     graph = build_graph()
+
+    # Generate a unique report_id for this run and create tracing context
+    report_id = generate_report_id()
+    ctx = create_tracing_context(report_id, topic)
 
     initial_state: ResearchState = {
         "topic": topic,
@@ -87,16 +81,21 @@ def run_graph_sync(topic: str, event_queue: asyncio.Queue):
         "sources": [],
         "current_agent": "",
         "log": [],
+        # Observability fields
+        "report_id": report_id,
+        "total_input_tokens": 0,
+        "total_output_tokens": 0,
+        "total_estimated_cost": 0.0,
+        "agent_metrics": [],
+        "budget_exceeded": False,
+        "max_retries_reached": False,
     }
 
-    stream_config = {}
-    if langfuse_handler:
-        stream_config["callbacks"] = [langfuse_handler]
-
+    # No callbacks needed — tracing is handled inside each agent node
     completed_agents = []
     final_state = None
 
-    for event in graph.stream(initial_state, config=stream_config, stream_mode="values"):
+    for event in graph.stream(initial_state, stream_mode="values"):
         current = event.get("current_agent", "")
         logs = event.get("log", [])
         final_state = event
@@ -154,6 +153,7 @@ def run_graph_sync(topic: str, event_queue: asyncio.Queue):
             "subtasks": subtasks_data,
             "report": None,
             "needs_more_research": event.get("needs_more_research", False),
+            "report_id": report_id,
         }
 
         event_queue.put_nowait(sse_event)
@@ -192,13 +192,30 @@ def run_graph_sync(topic: str, event_queue: asyncio.Queue):
         except Exception:
             pass
 
+        # Metrics from tracing context (authoritative source)
+        cost_metrics = {
+            "total_input_tokens": ctx.total_input_tokens,
+            "total_output_tokens": ctx.total_output_tokens,
+            "total_estimated_cost": round(ctx.total_estimated_cost, 6),
+            "agent_metrics": ctx.metrics_as_dicts(),
+        }
+
         metrics_data = {
             "subtasks": len(final_state.get("subtasks", [])),
             "sources": len(set(s["url"] for s in final_state.get("sources", []))),
             "retries": final_state.get("retry_count", 0),
+            "budget_exceeded": final_state.get("budget_exceeded", False),
+            "max_retries_reached": final_state.get("max_retries_reached", False),
+            **cost_metrics,
         }
 
         all_agent_statuses = {a: "done" for a in ["planner", "researcher", "critic", "writer"]}
+
+        # Finalize the Langfuse trace
+        ctx.finalize(output={
+            "report_length": len(final_state["final_report"]),
+            "retries": final_state.get("retry_count", 0),
+        })
 
         # ---- Auto-save to history ----
         session_id = uuid.uuid4().hex[:12]
@@ -209,6 +226,7 @@ def run_graph_sync(topic: str, event_queue: asyncio.Queue):
                 "report": final_state["final_report"],
                 "subtasks": subtasks_data,
                 "metrics": metrics_data,
+                "report_id": report_id,
                 "docx_filename": docx_filename,
                 "created_at": datetime.now(timezone.utc).isoformat(),
             }
@@ -227,8 +245,12 @@ def run_graph_sync(topic: str, event_queue: asyncio.Queue):
             "report": final_state["final_report"],
             "docx_filename": docx_filename,
             "session_id": session_id,
+            "report_id": report_id,
             "metrics": metrics_data,
         })
+
+    # Clean up tracing context
+    remove_tracing_context(report_id)
 
     event_queue.put_nowait(None)  # Sentinel: stream done
 
@@ -292,10 +314,15 @@ async def health():
         missing_keys.append("GROQ_API_KEY")
     if not os.getenv("TAVILY_API_KEY"):
         missing_keys.append("TAVILY_API_KEY")
+
+    langfuse_active = bool(
+        os.getenv("LANGFUSE_PUBLIC_KEY") and os.getenv("LANGFUSE_SECRET_KEY")
+    )
+
     return {
         "status": "ok" if not missing_keys else "missing_keys",
         "missing_keys": missing_keys,
-        "langfuse_active": langfuse_handler is not None,
+        "langfuse_active": langfuse_active,
     }
 
 
@@ -313,6 +340,7 @@ async def list_history():
                 "topic": data["topic"],
                 "created_at": data["created_at"],
                 "metrics": data.get("metrics"),
+                "report_id": data.get("report_id"),
             })
         except Exception:
             continue

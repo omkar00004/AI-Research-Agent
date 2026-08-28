@@ -18,6 +18,13 @@ class ResearchState(TypedDict):
         sources: Aggregated list of source dicts with 'title' and 'url'.
         current_agent: Name of the currently executing agent (for UI updates).
         log: List of human-readable log strings displayed in the UI.
+        report_id: Unique identifier for this generation run (for Langfuse grouping).
+        total_input_tokens: Accumulated input tokens across all nodes.
+        total_output_tokens: Accumulated output tokens across all nodes.
+        total_estimated_cost: Accumulated estimated cost in USD.
+        agent_metrics: Per-node metrics list for cost breakdown by role.
+        budget_exceeded: Flag set when token/cost budget is hit.
+        max_retries_reached: Flag set when retry cap is hit.
     """
 
     topic: str
@@ -30,3 +37,11 @@ class ResearchState(TypedDict):
     sources: list[dict]
     current_agent: str
     log: list[str]
+    # Observability & guardrail fields
+    report_id: str
+    total_input_tokens: int
+    total_output_tokens: int
+    total_estimated_cost: float
+    agent_metrics: list[dict]
+    budget_exceeded: bool
+    max_retries_reached: bool
