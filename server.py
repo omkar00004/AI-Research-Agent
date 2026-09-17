@@ -304,6 +304,9 @@ async def research(request: Request):
                     # from closing the idle connection (HF drops after ~30 s).
                     event = await asyncio.wait_for(queue.get(), timeout=15.0)
                 except asyncio.TimeoutError:
+                    if task.done():
+                        # The background thread finished (or crashed) without sending a None sentinel
+                        break
                     # Heartbeat — SSE comments (': ...') are ignored by clients
                     yield ": heartbeat\n\n"
                     continue
