@@ -89,6 +89,7 @@ def run_graph_sync(topic: str, event_queue: asyncio.Queue):
     from utils.tracing import (
         generate_report_id, create_tracing_context, remove_tracing_context,
     )
+    import traceback
 
     graph = build_graph()
 
@@ -121,16 +122,19 @@ def run_graph_sync(topic: str, event_queue: asyncio.Queue):
     completed_agents = []
     final_state = None
 
-    for event in graph.stream(initial_state, stream_mode="values"):
-        current = event.get("current_agent", "")
-        logs = event.get("log", [])
-        final_state = event
+    try:
+        for event in graph.stream(initial_state, stream_mode="values"):
+            current = event.get("current_agent", "")
+            logs = event.get("log", [])
+            final_state = event
 
-        if not current:
-            continue
+            if not current:
+                continue
 
-        # Build subtasks info from research_results if available
-        subtasks_data = []
+            print(f"[GRAPH] Agent '{current}' completed. Logs: {logs}")
+
+            # Build subtasks info from research_results if available
+            subtasks_data = []
         for r in event.get("research_results", []):
             sources = [
                 {
@@ -275,10 +279,14 @@ def run_graph_sync(topic: str, event_queue: asyncio.Queue):
             "metrics": metrics_data,
         })
 
-    # Clean up tracing context
-    remove_tracing_context(report_id)
-
-    event_queue.put_nowait(None)  # Sentinel: stream done
+    except Exception as e:
+        print(f"[GRAPH] FATAL ERROR during graph execution: {str(e)}")
+        traceback.print_exc()
+        raise
+    finally:
+        # Clean up tracing context
+        remove_tracing_context(report_id)
+        event_queue.put_nowait(None)  # Sentinel: stream done
 
 
 @app.post("/api/research")
