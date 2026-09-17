@@ -135,147 +135,147 @@ def run_graph_sync(topic: str, event_queue: asyncio.Queue):
 
             # Build subtasks info from research_results if available
             subtasks_data = []
-        for r in event.get("research_results", []):
-            sources = [
-                {
-                    "title": s.get("title", ""),
-                    "url": s.get("url", ""),
-                    "domain": s.get("url", "").split("//")[-1].split("/")[0] if s.get("url") else "",
-                }
-                for s in r.get("sources", [])
-            ]
-            subtasks_data.append({
-                "id": str(uuid.uuid4())[:8],
-                "title": r["subtask"],
-                "sources": sources,
-                "done": True,
-            })
-
-        # Also include planned-but-not-yet-researched subtasks
-        researched_titles = {r["subtask"] for r in event.get("research_results", [])}
-        for st in event.get("subtasks", []):
-            if st not in researched_titles:
+            for r in event.get("research_results", []):
+                sources = [
+                    {
+                        "title": s.get("title", ""),
+                        "url": s.get("url", ""),
+                        "domain": s.get("url", "").split("//")[-1].split("/")[0] if s.get("url") else "",
+                    }
+                    for s in r.get("sources", [])
+                ]
                 subtasks_data.append({
                     "id": str(uuid.uuid4())[:8],
-                    "title": st,
-                    "sources": [],
-                    "done": False,
+                    "title": r["subtask"],
+                    "sources": sources,
+                    "done": True,
                 })
 
-        # Build agent statuses
-        if current not in completed_agents:
-            completed_agents.append(current)
+            # Also include planned-but-not-yet-researched subtasks
+            researched_titles = {r["subtask"] for r in event.get("research_results", [])}
+            for st in event.get("subtasks", []):
+                if st not in researched_titles:
+                    subtasks_data.append({
+                        "id": str(uuid.uuid4())[:8],
+                        "title": st,
+                        "sources": [],
+                        "done": False,
+                    })
 
-        agent_statuses = {}
-        for agent_id in ["planner", "researcher", "critic", "writer"]:
-            if agent_id == current:
-                agent_statuses[agent_id] = "active"
-            elif agent_id in completed_agents:
-                agent_statuses[agent_id] = "done"
-            else:
-                agent_statuses[agent_id] = "idle"
+            # Build agent statuses
+            if current not in completed_agents:
+                completed_agents.append(current)
 
-        sse_event = {
-            "type": "agent_update",
-            "agent": current,
-            "statuses": agent_statuses,
-            "logs": logs[-6:],
-            "subtasks": subtasks_data,
-            "report": None,
-            "needs_more_research": event.get("needs_more_research", False),
-            "report_id": report_id,
-        }
+            agent_statuses = {}
+            for agent_id in ["planner", "researcher", "critic", "writer"]:
+                if agent_id == current:
+                    agent_statuses[agent_id] = "active"
+                elif agent_id in completed_agents:
+                    agent_statuses[agent_id] = "done"
+                else:
+                    agent_statuses[agent_id] = "idle"
 
-        event_queue.put_nowait(sse_event)
+            sse_event = {
+                "type": "agent_update",
+                "agent": current,
+                "statuses": agent_statuses,
+                "logs": logs[-6:],
+                "subtasks": subtasks_data,
+                "report": None,
+                "needs_more_research": event.get("needs_more_research", False),
+                "report_id": report_id,
+            }
 
-    # Send final report
-    if final_state and final_state.get("final_report"):
-        # Build final subtasks
-        subtasks_data = []
-        for r in final_state.get("research_results", []):
-            sources = [
-                {
-                    "title": s.get("title", ""),
-                    "url": s.get("url", ""),
-                    "domain": s.get("url", "").split("//")[-1].split("/")[0] if s.get("url") else "",
-                }
-                for s in r.get("sources", [])
-            ]
-            subtasks_data.append({
-                "id": str(uuid.uuid4())[:8],
-                "title": r["subtask"],
-                "sources": sources,
-                "done": True,
+            event_queue.put_nowait(sse_event)
+
+        # Send final report
+        if final_state and final_state.get("final_report"):
+            # Build final subtasks
+            subtasks_data = []
+            for r in final_state.get("research_results", []):
+                sources = [
+                    {
+                        "title": s.get("title", ""),
+                        "url": s.get("url", ""),
+                        "domain": s.get("url", "").split("//")[-1].split("/")[0] if s.get("url") else "",
+                    }
+                    for s in r.get("sources", [])
+                ]
+                subtasks_data.append({
+                    "id": str(uuid.uuid4())[:8],
+                    "title": r["subtask"],
+                    "sources": sources,
+                    "done": True,
+                })
+
+            # Generate docx
+            docx_filename = None
+            try:
+                from utils.doc_generator import generate_docx
+                docx_bytes = generate_docx(
+                    topic=topic,
+                    report_text=final_state["final_report"],
+                    sources=final_state.get("sources", []),
+                )
+                docx_filename = f"report_{uuid.uuid4().hex[:8]}.docx"
+                (REPORTS_DIR / docx_filename).write_bytes(docx_bytes)
+            except Exception:
+                pass
+
+            # Metrics from tracing context (authoritative source)
+            cost_metrics = {
+                "total_input_tokens": ctx.total_input_tokens,
+                "total_output_tokens": ctx.total_output_tokens,
+                "total_estimated_cost": round(ctx.total_estimated_cost, 6),
+                "agent_metrics": ctx.metrics_as_dicts(),
+            }
+
+            metrics_data = {
+                "subtasks": len(final_state.get("subtasks", [])),
+                "sources": len(set(s["url"] for s in final_state.get("sources", []))),
+                "retries": final_state.get("retry_count", 0),
+                "budget_exceeded": final_state.get("budget_exceeded", False),
+                "max_retries_reached": final_state.get("max_retries_reached", False),
+                **cost_metrics,
+            }
+
+            all_agent_statuses = {a: "done" for a in ["planner", "researcher", "critic", "writer"]}
+
+            # Finalize the Langfuse trace
+            ctx.finalize(output={
+                "report_length": len(final_state["final_report"]),
+                "retries": final_state.get("retry_count", 0),
             })
 
-        # Generate docx
-        docx_filename = None
-        try:
-            from utils.doc_generator import generate_docx
-            docx_bytes = generate_docx(
-                topic=topic,
-                report_text=final_state["final_report"],
-                sources=final_state.get("sources", []),
-            )
-            docx_filename = f"report_{uuid.uuid4().hex[:8]}.docx"
-            (REPORTS_DIR / docx_filename).write_bytes(docx_bytes)
-        except Exception:
-            pass
+            # ---- Auto-save to history ----
+            session_id = uuid.uuid4().hex[:12]
+            try:
+                session_data = {
+                    "id": session_id,
+                    "topic": topic,
+                    "report": final_state["final_report"],
+                    "subtasks": subtasks_data,
+                    "metrics": metrics_data,
+                    "report_id": report_id,
+                    "docx_filename": docx_filename,
+                    "created_at": datetime.now(timezone.utc).isoformat(),
+                }
+                (HISTORY_DIR / f"{session_id}.json").write_text(
+                    json.dumps(session_data, ensure_ascii=False, indent=2)
+                )
+            except Exception:
+                pass
 
-        # Metrics from tracing context (authoritative source)
-        cost_metrics = {
-            "total_input_tokens": ctx.total_input_tokens,
-            "total_output_tokens": ctx.total_output_tokens,
-            "total_estimated_cost": round(ctx.total_estimated_cost, 6),
-            "agent_metrics": ctx.metrics_as_dicts(),
-        }
-
-        metrics_data = {
-            "subtasks": len(final_state.get("subtasks", [])),
-            "sources": len(set(s["url"] for s in final_state.get("sources", []))),
-            "retries": final_state.get("retry_count", 0),
-            "budget_exceeded": final_state.get("budget_exceeded", False),
-            "max_retries_reached": final_state.get("max_retries_reached", False),
-            **cost_metrics,
-        }
-
-        all_agent_statuses = {a: "done" for a in ["planner", "researcher", "critic", "writer"]}
-
-        # Finalize the Langfuse trace
-        ctx.finalize(output={
-            "report_length": len(final_state["final_report"]),
-            "retries": final_state.get("retry_count", 0),
-        })
-
-        # ---- Auto-save to history ----
-        session_id = uuid.uuid4().hex[:12]
-        try:
-            session_data = {
-                "id": session_id,
-                "topic": topic,
-                "report": final_state["final_report"],
+            event_queue.put_nowait({
+                "type": "complete",
+                "agent": "writer",
+                "statuses": all_agent_statuses,
+                "logs": ["Report ready."],
                 "subtasks": subtasks_data,
-                "metrics": metrics_data,
-                "report_id": report_id,
+                "report": final_state["final_report"],
                 "docx_filename": docx_filename,
-                "created_at": datetime.now(timezone.utc).isoformat(),
-            }
-            (HISTORY_DIR / f"{session_id}.json").write_text(
-                json.dumps(session_data, ensure_ascii=False, indent=2)
-            )
-        except Exception:
-            pass
-
-        event_queue.put_nowait({
-            "type": "complete",
-            "agent": "writer",
-            "statuses": all_agent_statuses,
-            "logs": ["Report ready."],
-            "subtasks": subtasks_data,
-            "report": final_state["final_report"],
-            "docx_filename": docx_filename,
-            "session_id": session_id,
-            "report_id": report_id,
+                "session_id": session_id,
+                "report_id": report_id,
             "metrics": metrics_data,
         })
 
