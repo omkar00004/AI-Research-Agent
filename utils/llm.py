@@ -18,7 +18,7 @@ def _get_openrouter_llm(model: str, temperature: float):
     """
     from langchain_openai import ChatOpenAI  # lazy import — only when needed
 
-    api_key = os.getenv("OPENROUTER_API_KEY", "")
+    api_key = os.getenv("OPENROUTER_API_KEY", "").strip()
     return ChatOpenAI(
         model=model,
         api_key=api_key,
