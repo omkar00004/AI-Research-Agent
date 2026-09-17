@@ -416,10 +416,31 @@ if FRONTEND_DIR.exists():
     @app.get("/{full_path:path}")
     async def serve_frontend(full_path: str):
         """Serve the React SPA — any non-API path returns index.html."""
+        from fastapi.responses import JSONResponse
+
+        # Block requests for sensitive files / path-traversal attempts
+        _BLOCKED = {
+            ".env", ".env.local", ".env.production", ".env.development",
+            ".env.example", ".envrc",
+            ".streamlit/secrets.toml",
+            "secrets.toml", "config.py", "server.py",
+            "openapi.json",  # re-add /docs if you want Swagger UI
+        }
+        # Reject anything with ".." (path traversal) or matching blocked names
+        if ".." in full_path or full_path.lstrip("/") in _BLOCKED:
+            return JSONResponse({"detail": "Not Found"}, status_code=404)
+
         file_path = FRONTEND_DIR / full_path
+        # Ensure resolved path stays inside FRONTEND_DIR (symlink-safe)
+        try:
+            file_path.resolve().relative_to(FRONTEND_DIR.resolve())
+        except ValueError:
+            return JSONResponse({"detail": "Not Found"}, status_code=404)
+
         if file_path.exists() and file_path.is_file():
             return FileResponse(file_path)
         return FileResponse(FRONTEND_DIR / "index.html")
+
 
 
 if __name__ == "__main__":
