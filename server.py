@@ -38,6 +38,32 @@ HISTORY_DIR.mkdir(parents=True, exist_ok=True)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan: startup and shutdown."""
+    # ---- Startup validation (visible in HF container logs) ----
+    import logging
+    logger = logging.getLogger("atlas.startup")
+    print("===== Application Startup at", datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"), "=====")
+
+    # Validate required env vars
+    missing = [k for k in ("GROQ_API_KEY", "TAVILY_API_KEY") if not os.getenv(k)]
+    if missing:
+        print(f"[STARTUP] WARNING: Missing required env vars: {missing}")
+        print("[STARTUP] Set them in HF Space Settings → Variables and Secrets")
+    else:
+        print("[STARTUP] ✓ GROQ_API_KEY present")
+        print("[STARTUP] ✓ TAVILY_API_KEY present")
+
+    if os.getenv("OPENROUTER_API_KEY"):
+        print("[STARTUP] ✓ OPENROUTER_API_KEY present (Writer → OpenRouter)")
+    else:
+        print("[STARTUP] WARNING: OPENROUTER_API_KEY not set — Writer will fall back to Groq default")
+
+    # Validate config.py is importable (catches missing file in Docker)
+    try:
+        from config import MODEL_CONFIG
+        print(f"[STARTUP] ✓ config.py loaded — model routing: {MODEL_CONFIG}")
+    except ImportError as e:
+        print(f"[STARTUP] ERROR: config.py not found: {e} — model routing will use defaults")
+
     yield
 
 
@@ -272,7 +298,16 @@ async def research(request: Request):
 
         try:
             while True:
-                event = await queue.get()
+                try:
+                    # Wait up to 15 s for the next event; if nothing arrives,
+                    # send an SSE comment as a heartbeat to keep the HF proxy
+                    # from closing the idle connection (HF drops after ~30 s).
+                    event = await asyncio.wait_for(queue.get(), timeout=15.0)
+                except asyncio.TimeoutError:
+                    # Heartbeat — SSE comments (': ...') are ignored by clients
+                    yield ": heartbeat\n\n"
+                    continue
+
                 if event is None:
                     break
                 yield f"data: {json.dumps(event)}\n\n"
@@ -280,7 +315,11 @@ async def research(request: Request):
             task.cancel()
             raise
 
-        await task  # Ensure the thread has finished
+        # Surface any exception from the background thread to the SSE stream
+        try:
+            await task
+        except Exception as exc:
+            yield f"data: {json.dumps({'type': 'error', 'message': str(exc)})}\n\n"
 
     return StreamingResponse(
         event_generator(),

@@ -16,6 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy Python source
 COPY server.py ./
+COPY config.py ./
 COPY agents/ ./agents/
 COPY utils/ ./utils/
 COPY .env.example ./.env.example
