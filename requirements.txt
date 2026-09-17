@@ -1,5 +1,6 @@
 langchain==0.3.25
 langchain-groq==0.3.2
+langchain-openai==0.3.35
 langchain-community==0.3.24
 langgraph==0.4.8
 tavily-python==0.5.1

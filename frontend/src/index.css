@@ -17,6 +17,16 @@
 }
 
 /* ---- Headings ---- */
+.prose-report h1,
+.prose-report h2,
+.prose-report h3,
+.prose-report h4 {
+  /* Prevent long Unicode-heavy titles from overflowing their container */
+  overflow-wrap: break-word;
+  word-break: normal;       /* break only at allowed breakpoints, not mid-word */
+  hyphens: auto;            /* allow browser hyphenation as a last resort */
+}
+
 .prose-report h1 {
   font-size: 1.75rem;
   font-weight: 800;

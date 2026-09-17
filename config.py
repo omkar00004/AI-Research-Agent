@@ -11,10 +11,14 @@ touching agent code.  Import with: ``from config import MODEL_CONFIG, …``
 # ``role`` argument passed to ``get_llm(role=…)`` in each agent module.
 
 MODEL_CONFIG: dict[str, str] = {
+    # Groq — fast, high rate limits, ideal for structured/mechanical tasks
     "planner":    "openai/gpt-oss-20b",   # Strong — planning errors cascade
-    "researcher": "openai/gpt-oss-20b",       # Cheap — high call volume, mechanical
-    "critic":     "openai/gpt-oss-20b",    # Mid-tier — bounded judgment call
-    "writer":     "openai/gpt-oss-20b",    # Strong — final synthesis quality
+    "researcher": "openai/gpt-oss-20b",   # Cheap — high call volume, mechanical
+    "critic":     "openai/gpt-oss-20b",   # Mid-tier — bounded judgment call
+
+    # OpenRouter — stronger synthesis for the final report
+    # Prefix "openrouter/" tells llm.py to route to OpenRouter instead of Groq
+    "writer":     "openrouter/meta-llama/llama-3.3-70b-instruct",
 }
 
 # ---------------------------------------------------------------------------

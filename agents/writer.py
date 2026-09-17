@@ -1,9 +1,9 @@
-from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 from agents.state import ResearchState
 import re
 import os
 import time
+import unicodedata
 from utils.llm import get_llm
 from utils.tracing import get_tracing_context
 
@@ -26,6 +26,44 @@ def fix_mermaid_syntax(text: str) -> str:
     # Fix nodes with special chars that break Mermaid - wrap in quotes if needed
     # e.g. A[Some & Thing] => A["Some & Thing"]
     text = re.sub(r'\[([^\]]*&[^\]]*)\]', lambda m: '["' + m.group(1) + '"]', text)
+
+    return text
+
+
+def normalize_unicode(text: str) -> str:
+    """Normalize non-standard Unicode characters that break frontend rendering.
+
+    LLMs often copy non-breaking spaces, en/em-dashes, and non-breaking
+    hyphens verbatim from scraped web sources. These cause layout glitches
+    in the React markdown renderer (headers overflow, words refuse to wrap).
+    This function replaces them with their standard ASCII equivalents.
+    """
+    # Non-breaking spaces and thin/narrow no-break spaces → standard space
+    text = text.replace("\u00A0", " ")   # NO-BREAK SPACE
+    text = text.replace("\u202F", " ")   # NARROW NO-BREAK SPACE
+    text = text.replace("\u2007", " ")   # FIGURE SPACE
+    text = text.replace("\u2060", "")    # WORD JOINER (zero-width, invisible)
+
+    # Non-breaking hyphen → regular hyphen
+    text = text.replace("\u2011", "-")   # NON-BREAKING HYPHEN
+
+    # En-dash / Em-dash → regular hyphen (keeps readability in plain text)
+    text = text.replace("\u2013", "-")   # EN DASH
+    text = text.replace("\u2014", "--")  # EM DASH
+
+    # Smart / curly quotes → straight ASCII quotes (avoids glyph-box glitches)
+    text = text.replace("\u2018", "'")   # LEFT SINGLE QUOTATION MARK
+    text = text.replace("\u2019", "'")   # RIGHT SINGLE QUOTATION MARK
+    text = text.replace("\u201C", '"')   # LEFT DOUBLE QUOTATION MARK
+    text = text.replace("\u201D", '"')   # RIGHT DOUBLE QUOTATION MARK
+
+    # Horizontal ellipsis → three dots
+    text = text.replace("\u2026", "...")  # HORIZONTAL ELLIPSIS
+
+    # Unicode bullet variants → standard hyphen-bullet (consistent with prompt)
+    text = text.replace("\u2022", "-")   # BULLET
+    text = text.replace("\u2023", "-")   # TRIANGULAR BULLET
+    text = text.replace("\u25CF", "-")   # BLACK CIRCLE
 
     return text
 
@@ -107,8 +145,10 @@ Write the full professional report:""")
         ctx.record_llm_call("writer", response, model_name, llm_start)
         ctx.end_span("writer", output={"report_length": len(response.content)})
 
-    # Post-process to fix any Mermaid syntax errors the LLM still generates
+    # Post-process: fix Mermaid syntax, then normalize Unicode characters
+    # that cause text-breaking / layout glitches in the frontend renderer
     cleaned_report = fix_mermaid_syntax(response.content)
+    cleaned_report = normalize_unicode(cleaned_report)
 
     result = {
         "final_report": cleaned_report,
