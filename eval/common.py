@@ -32,7 +32,7 @@ CONDITIONS = {
 
 # USD per 1M tokens. Sources recorded in README.md. Estimates, not invoices.
 PRICES = {
-    "openai/gpt-oss-120b": {"in": 0.15, "out": 0.60},                 # Groq docs, fetched 2026-10-03
+    "openai/gpt-oss-120b": {"in": 0.037, "out": 0.17},                # OpenRouter listing, fetched 2026-10-03 (Groq list price would be 0.15/0.60)
     "meta-llama/llama-3.3-70b-instruct": {"in": 0.10, "out": 0.32},   # OpenRouter listing, fetched 2026-10-03
     "google/gemini-2.5-flash": {"in": 0.30, "out": 2.50},             # OpenRouter listing (reasoning billed as output)
 }

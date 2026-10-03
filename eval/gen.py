@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import contextvars
+import os
 import functools
 import json
 import re
@@ -77,6 +78,13 @@ def _patch_once():
     ul.ChatGroq = functools.partial(ul.ChatGroq, max_retries=8, timeout=240)
     import langchain_openai
     langchain_openai.ChatOpenAI = functools.partial(langchain_openai.ChatOpenAI, max_retries=8, timeout=240)
+    # The Groq key is on a 8,000 tokens/min tier (x-ratelimit-limit-tokens: 8000), which cannot sustain the
+    # benchmark. Same model weights are served by OpenRouter, so route Groq roles there by default
+    # (EVAL_GROQ_ROLES_VIA=groq restores config.py's routing). Recorded as a limitation in README.md.
+    if os.getenv("EVAL_GROQ_ROLES_VIA", "openrouter") == "openrouter":
+        for role, m in list(config.MODEL_CONFIG.items()):
+            if not m.startswith("openrouter/"):
+                config.MODEL_CONFIG[role] = "openrouter/" + m
     _patched = True
 
 
