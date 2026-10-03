@@ -6,6 +6,7 @@ import time
 import unicodedata
 from utils.llm import get_llm
 from utils.tracing import get_tracing_context
+import config
 
 
 def fix_mermaid_syntax(text: str) -> str:
@@ -126,14 +127,24 @@ Mermaid diagram rules (CRITICAL - follow exactly):
     A[Start] -->|Step 1| B[Process]
     B -->|Step 2| C[End]
 - Example of WRONG syntax (never do this):
-  A -->|label|> B   ← INVALID, the > after | breaks rendering""")
+  A -->|label|> B   ← INVALID, the > after | breaks rendering""" + (config.CITE_WRITER_SUFFIX if config.CITE_MODE else ""))
+
+    source_note = ""
+    if config.CITE_MODE:
+        seen, lines = set(), []
+        for r in state["research_results"]:
+            for src in r.get("sources", []):
+                if src.get("url") and src["url"] not in seen:
+                    seen.add(src["url"])
+                    lines.append(f"- {src.get('title', '')}: {src['url']}")
+        source_note = "\n\nAvailable sources (cite only these URLs):\n" + "\n".join(lines)
 
     human = HumanMessage(content=f"""Topic: {state['topic']}
 
 Research findings:
 {research_content}
 {critic_note}
-{guardrail_note}
+{guardrail_note}{source_note}
 
 Write the full professional report:""")
 

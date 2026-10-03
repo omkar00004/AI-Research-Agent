@@ -7,6 +7,7 @@ from langchain_core.messages import SystemMessage, HumanMessage
 from tavily import TavilyClient
 from agents.state import ResearchState
 from utils.tracing import get_tracing_context
+import config
 
 
 def research_agent(state: ResearchState) -> dict:
@@ -82,7 +83,7 @@ Guidelines:
 - Cite specific findings from the sources
 - Note any conflicting viewpoints
 - Keep the synthesis concise but thorough (200-400 words)
-- Write in a professional, analytical tone""")
+- Write in a professional, analytical tone""" + (config.CITE_RESEARCH_SUFFIX if config.CITE_MODE else ""))
 
         human = HumanMessage(content=f"""Subtask: {subtask}
 

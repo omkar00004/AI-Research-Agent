@@ -1,5 +1,6 @@
 """LangGraph agent graph with conditional Critic retry loop."""
 
+import config
 from langgraph.graph import StateGraph, END
 from agents.state import ResearchState
 from agents.planner import planner_agent
@@ -27,17 +28,22 @@ def build_graph():
     # Linear flow: planner -> researcher -> critic
     graph.set_entry_point("planner")
     graph.add_edge("planner", "researcher")
-    graph.add_edge("researcher", "critic")
 
-    # Conditional: critic decides retry or write
-    graph.add_conditional_edges(
-        "critic",
-        should_retry,
-        {
-            "retry": "researcher",
-            "write": "writer",
-        }
-    )
+    if config.ENABLE_CRITIC:
+        graph.add_edge("researcher", "critic")
+
+        # Conditional: critic decides retry or write
+        graph.add_conditional_edges(
+            "critic",
+            should_retry,
+            {
+                "retry": "researcher",
+                "write": "writer",
+            }
+        )
+    else:
+        # Ablation (ATLAS_ENABLE_CRITIC=0): single pass, no gap evaluation or retries
+        graph.add_edge("researcher", "writer")
 
     graph.add_edge("writer", END)
 

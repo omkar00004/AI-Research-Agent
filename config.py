@@ -24,7 +24,9 @@ MODEL_CONFIG: dict[str, str] = {
 # ---------------------------------------------------------------------------
 # Retry-loop guardrails
 # ---------------------------------------------------------------------------
-MAX_RETRIES: int = 2                  # Hard cap on Critic → Researcher retries
+import os
+
+MAX_RETRIES: int = int(os.getenv("ATLAS_MAX_RETRIES", "2"))  # Hard cap on Critic → Researcher retries
 MAX_TOKENS_PER_REPORT: int = 100_000  # Total token budget (input + output)
 MAX_COST_PER_REPORT: float = 0.10     # USD budget per end-to-end run
 
@@ -47,3 +49,28 @@ BENCHMARK_TOPICS: list[str] = [
     "Environmental impact of large-scale data center operations",
     "Evolution of autonomous vehicle regulation in the US and EU",
 ]
+
+# ---------------------------------------------------------------------------
+# Evaluation / ablation switches (all default to Atlas's normal behaviour)
+# ---------------------------------------------------------------------------
+# ATLAS_ENABLE_CRITIC=0  -> graph is planner -> researcher -> writer (no gap evaluation / retries)
+# ATLAS_CITE_MODE=1      -> researcher + writer are asked to cite sources inline as markdown links
+# These are read at call time (``config.X``) so eval/ can toggle them in-process.
+ENABLE_CRITIC: bool = os.getenv("ATLAS_ENABLE_CRITIC", "1") != "0"
+CITE_MODE: bool = os.getenv("ATLAS_CITE_MODE", "0") == "1"
+
+CITE_RESEARCH_SUFFIX: str = """
+
+Citation rule (CRITICAL): after every factual claim, cite its source as an inline markdown link whose
+target is the exact URL from that source's "URL:" line above, e.g. [Reuters](https://www.reuters.com/some/page).
+Do NOT cite by bare source name or with 【】 brackets. Use ONLY URLs that appear in the search results above;
+never invent URLs. If no source supports a statement, leave it uncited."""
+
+CITE_WRITER_SUFFIX: str = """
+
+Citation rules (CRITICAL):
+- Support factual claims with inline markdown links placed right after the claim, e.g. [Reuters](https://www.reuters.com/some/page).
+  The link target must be a full URL. Never cite by bare source name or with 【】 brackets.
+- Use ONLY real URLs: those that appear in the research findings or the source list provided.
+  Never invent or guess a URL. If you are not sure a claim has a source, leave it uncited.
+- Do not add a separate references section; citations are inline."""

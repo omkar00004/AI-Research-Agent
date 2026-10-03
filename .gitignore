@@ -9,3 +9,10 @@ frontend/node_modules/
 frontend/dist/
 tests/results/
 report_eval*.json
+
+# eval harness: secrets, caches, logs, raw outputs
+eval/.env.local
+eval/cache/
+eval/logs/
+eval/outputs/
+eval/outputs_dryrun/

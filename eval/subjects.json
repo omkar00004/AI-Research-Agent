@@ -1,0 +1,230 @@
+{
+  "_note": "Frozen before any evaluation run. Do not edit after results are seen.",
+  "dev": [
+    {
+      "id": "dev01",
+      "topic": "Analyze the impact of LLMs on software engineering jobs",
+      "source": "history/ sessions (2 runs)"
+    },
+    {
+      "id": "dev02",
+      "topic": "Does anyone landed in mars",
+      "source": "history/ session"
+    },
+    {
+      "id": "dev03",
+      "topic": "Gold prices of last week",
+      "source": "history/ session"
+    },
+    {
+      "id": "dev04",
+      "topic": "Gold prices in india",
+      "source": "history/ session"
+    },
+    {
+      "id": "dev05",
+      "topic": "The latest BRICS summit of India. What do you think about it, and what will India benefit from the latest BRICS summit?",
+      "source": "history/ session"
+    },
+    {
+      "id": "dev06",
+      "topic": "Impact of AI agents on software engineering jobs in 2025",
+      "source": "config.BENCHMARK_TOPICS"
+    },
+    {
+      "id": "dev07",
+      "topic": "Comparison of RAG vs fine-tuning for enterprise LLM applications",
+      "source": "config.BENCHMARK_TOPICS"
+    },
+    {
+      "id": "dev08",
+      "topic": "State of quantum computing for drug discovery 2025",
+      "source": "config.BENCHMARK_TOPICS"
+    },
+    {
+      "id": "dev09",
+      "topic": "How central bank digital currencies affect monetary policy",
+      "source": "config.BENCHMARK_TOPICS"
+    },
+    {
+      "id": "dev10",
+      "topic": "Environmental impact of large-scale data center operations",
+      "source": "config.BENCHMARK_TOPICS"
+    },
+    {
+      "id": "dev11",
+      "topic": "Evolution of autonomous vehicle regulation in the US and EU",
+      "source": "config.BENCHMARK_TOPICS"
+    }
+  ],
+  "test": [
+    {
+      "id": "t01",
+      "topic": "Mixture-of-experts architectures: efficiency trade-offs in large language models",
+      "domain_id": "ml_ai",
+      "domain": "ML/AI",
+      "recent": false
+    },
+    {
+      "id": "t02",
+      "topic": "Mechanistic interpretability of neural networks: methods, results and open problems",
+      "domain_id": "ml_ai",
+      "domain": "ML/AI",
+      "recent": false
+    },
+    {
+      "id": "t03",
+      "topic": "Reliability and limitations of AI agent benchmarks such as SWE-bench and GAIA",
+      "domain_id": "ml_ai",
+      "domain": "ML/AI",
+      "recent": false
+    },
+    {
+      "id": "t04",
+      "topic": "Latest frontier AI model releases and their capability evaluations in 2026",
+      "domain_id": "ml_ai",
+      "domain": "ML/AI",
+      "recent": true
+    },
+    {
+      "id": "t05",
+      "topic": "CRISPR-based gene therapies for sickle cell disease: clinical outcomes and access barriers",
+      "domain_id": "medicine_biology",
+      "domain": "Medicine/Biology",
+      "recent": false
+    },
+    {
+      "id": "t06",
+      "topic": "Clinical evidence for GLP-1 receptor agonists beyond diabetes and obesity",
+      "domain_id": "medicine_biology",
+      "domain": "Medicine/Biology",
+      "recent": false
+    },
+    {
+      "id": "t07",
+      "topic": "Antimicrobial resistance: drivers, surveillance and the antibiotic development pipeline",
+      "domain_id": "medicine_biology",
+      "domain": "Medicine/Biology",
+      "recent": false
+    },
+    {
+      "id": "t08",
+      "topic": "Recent developments in H5N1 avian influenza in cattle and humans in 2026",
+      "domain_id": "medicine_biology",
+      "domain": "Medicine/Biology",
+      "recent": true
+    },
+    {
+      "id": "t09",
+      "topic": "Empirical evidence on the effect of tariffs on consumer prices",
+      "domain_id": "economics_finance",
+      "domain": "Economics/Finance",
+      "recent": false
+    },
+    {
+      "id": "t10",
+      "topic": "Stablecoin regulation in the US, EU and Asia and implications for systemic risk",
+      "domain_id": "economics_finance",
+      "domain": "Economics/Finance",
+      "recent": false
+    },
+    {
+      "id": "t11",
+      "topic": "Housing affordability in advanced economies: causes and policy responses",
+      "domain_id": "economics_finance",
+      "domain": "Economics/Finance",
+      "recent": false
+    },
+    {
+      "id": "t12",
+      "topic": "Central bank interest rate decisions and the inflation outlook in 2026",
+      "domain_id": "economics_finance",
+      "domain": "Economics/Finance",
+      "recent": true
+    },
+    {
+      "id": "t13",
+      "topic": "EU AI Act: obligations, enforcement timeline and compliance challenges",
+      "domain_id": "policy_law",
+      "domain": "Policy/Law",
+      "recent": false
+    },
+    {
+      "id": "t14",
+      "topic": "Copyright law and generative AI training data: major litigation and rulings",
+      "domain_id": "policy_law",
+      "domain": "Policy/Law",
+      "recent": false
+    },
+    {
+      "id": "t15",
+      "topic": "Right-to-repair legislation in US states and the EU",
+      "domain_id": "policy_law",
+      "domain": "Policy/Law",
+      "recent": false
+    },
+    {
+      "id": "t16",
+      "topic": "Major US Supreme Court decisions of the 2025-2026 term and their policy impact",
+      "domain_id": "policy_law",
+      "domain": "Policy/Law",
+      "recent": true
+    },
+    {
+      "id": "t17",
+      "topic": "Progress in fusion energy: tokamaks, stellarators and inertial confinement",
+      "domain_id": "physics_engineering",
+      "domain": "Physics/Engineering",
+      "recent": false
+    },
+    {
+      "id": "t18",
+      "topic": "Solid-state batteries: technical challenges and commercialization status",
+      "domain_id": "physics_engineering",
+      "domain": "Physics/Engineering",
+      "recent": false
+    },
+    {
+      "id": "t19",
+      "topic": "Gravitational-wave astronomy: LIGO-Virgo-KAGRA discoveries and future detectors",
+      "domain_id": "physics_engineering",
+      "domain": "Physics/Engineering",
+      "recent": false
+    },
+    {
+      "id": "t20",
+      "topic": "Recent progress in quantum error correction and logical qubit demonstrations in 2026",
+      "domain_id": "physics_engineering",
+      "domain": "Physics/Engineering",
+      "recent": true
+    },
+    {
+      "id": "t21",
+      "topic": "Social and economic consequences of the 1918 influenza pandemic",
+      "domain_id": "history_social_science",
+      "domain": "History/Social Science",
+      "recent": false
+    },
+    {
+      "id": "t22",
+      "topic": "The Bronze Age collapse: competing explanations",
+      "domain_id": "history_social_science",
+      "domain": "History/Social Science",
+      "recent": false
+    },
+    {
+      "id": "t23",
+      "topic": "Social media use and adolescent mental health: evidence and debate",
+      "domain_id": "history_social_science",
+      "domain": "History/Social Science",
+      "recent": false
+    },
+    {
+      "id": "t24",
+      "topic": "Recent global trends in fertility decline and demographic projections using 2025-2026 data",
+      "domain_id": "history_social_science",
+      "domain": "History/Social Science",
+      "recent": true
+    }
+  ]
+}
